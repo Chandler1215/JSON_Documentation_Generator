@@ -1,6 +1,8 @@
 package jsonGenerator.quickstart;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -10,14 +12,15 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
+
+import javax.swing.JTextPane;
 
 /**
  * <h1>JFilePicker</h1> Class created to have a combination of label + textFiled
  * + button + fileChooser
  * 
  * @author Bozieac Artur
- * @version 1.0
+ * @version 1.1
  * @since 2020-04-23
  */
 
@@ -26,10 +29,12 @@ public class JFilePicker extends JPanel {
 	// Name of the field and button content
 	private String textFieldLabel;
 	private String buttonLabel;
+	private int fieldWidth = 350;
+	
 
 	// FilePicker components
 	private JLabel label;
-	private JTextField textField;
+	private JTextPane textField;
 	private JButton button;
 	private JFileChooser fileChooser;
 
@@ -52,17 +57,22 @@ public class JFilePicker extends JPanel {
 
 		// file chooser instantiation
 		fileChooser = new JFileChooser();
-
+		
+		
 		// setting flowlauout to have elements in one row
-		setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-
+		setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
 		// creates the GUI ( components styles )
-
+		
 		label = new JLabel(textFieldLabel);
+		
 		label.setFont(new Font("Tahoma", Font.BOLD, 12));
 
-		textField = new JTextField(30);
-
+		
+		textField = new JTextPane();
+		textField.setPreferredSize(new Dimension(fieldWidth, 20));
+		
+		
 		button = new JButton(buttonLabel);
 		button.setBackground(new Color(59, 89, 182));
 		button.setForeground(Color.BLACK);
@@ -82,10 +92,10 @@ public class JFilePicker extends JPanel {
 		});
 
 		// adding elements to layout
-		add(label);
-		add(textField);
-		add(button);
-
+		add(label, BorderLayout.WEST);
+		add(textField, BorderLayout.CENTER);
+		add(button, BorderLayout.EAST);
+		
 	}
 
 	/**
@@ -129,6 +139,10 @@ public class JFilePicker extends JPanel {
 
 		this.mode = mode;
 	}
+	
+	public int getMode() {
+		return this.mode;
+	}
 
 	/**
 	 * Getter for text from textField
@@ -145,4 +159,10 @@ public class JFilePicker extends JPanel {
 
 		return this.fileChooser;
 	}
+	
+	public void setFieldWidth(int width) {
+		this.fieldWidth = width;
+	}
+	
+
 }

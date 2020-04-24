@@ -1,6 +1,7 @@
 package jsonGenerator.quickstart;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 
@@ -41,7 +42,10 @@ public class SaveTypeBox extends JPanel {
 
 		saveTypeLabel = new JLabel(labelContent);
 		saveTypeBox = new JComboBox(saveTypes);
-
+		
+		// TypeLabel style
+		saveTypeLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		
 		// ComboBox style
 		saveTypeBox.setOpaque(true);
 		saveTypeBox.setFont(new Font("Tahoma", Font.BOLD, 12));
