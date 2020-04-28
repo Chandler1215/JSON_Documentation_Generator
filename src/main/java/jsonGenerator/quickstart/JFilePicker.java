@@ -2,7 +2,7 @@ package jsonGenerator.quickstart;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
+
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -12,8 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import javax.swing.JTextPane;
+import javax.swing.JTextField;
 
 /**
  * <h1>JFilePicker</h1> Class created to have a combination of label + textFiled
@@ -26,15 +25,14 @@ import javax.swing.JTextPane;
 
 public class JFilePicker extends JPanel {
 
-	// Name of the field and button content
-	private String textFieldLabel;
-	private String buttonLabel;
-	private int fieldWidth = 350;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	// FilePicker components
 	private JLabel label;
-	private JTextPane textField;
+	private JTextField textField;
 	private JButton button;
 	private JFileChooser fileChooser;
 
@@ -52,31 +50,26 @@ public class JFilePicker extends JPanel {
 	 */
 	public JFilePicker(String textFieldLabel, String buttonLabel) {
 
-		this.textFieldLabel = textFieldLabel;
-		this.buttonLabel = buttonLabel;
-
 		// file chooser instantiation
 		fileChooser = new JFileChooser();
-		
-		
+
 		// setting flowlauout to have elements in one row
-		setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
+		FlowLayout flowLayout = new FlowLayout(FlowLayout.CENTER, 5, 5);
+		flowLayout.setAlignOnBaseline(true);
+		setLayout(flowLayout);
+
 		// creates the GUI ( components styles )
-		
+
 		label = new JLabel(textFieldLabel);
-		
+
 		label.setFont(new Font("Tahoma", Font.BOLD, 12));
 
-		
-		textField = new JTextPane();
-		textField.setPreferredSize(new Dimension(fieldWidth, 20));
-		
-		
+		textField = new JTextField(35);
+		// textField.setPreferredSize();
+
 		button = new JButton(buttonLabel);
 		button.setBackground(new Color(59, 89, 182));
 		button.setForeground(Color.BLACK);
-		button.setFocusPainted(false);
 		button.setFont(new Font("Tahoma", Font.BOLD, 12));
 
 		button.addActionListener(new ActionListener() {
@@ -95,7 +88,7 @@ public class JFilePicker extends JPanel {
 		add(label, BorderLayout.WEST);
 		add(textField, BorderLayout.CENTER);
 		add(button, BorderLayout.EAST);
-		
+
 	}
 
 	/**
@@ -139,7 +132,7 @@ public class JFilePicker extends JPanel {
 
 		this.mode = mode;
 	}
-	
+
 	public int getMode() {
 		return this.mode;
 	}
@@ -159,10 +152,8 @@ public class JFilePicker extends JPanel {
 
 		return this.fileChooser;
 	}
-	
+
 	public void setFieldWidth(int width) {
-		this.fieldWidth = width;
 	}
-	
 
 }
