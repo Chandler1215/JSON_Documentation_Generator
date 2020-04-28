@@ -29,3 +29,12 @@ Example 4.
 
 Example 5.
 ![Screenshot](invalidURL.png)
+
+# Step 3 : Read JSON Schema and Write data to a file
+- Used JSON-Java library to get data from JSON Schema
+- Format selected data
+- Write it to a txt file
+   - "Generate" button now creates a new file with formatted data, if file already exists, replaces it.
+   
+   Example 6.
+![Screenshot](saveFormat1.png)
