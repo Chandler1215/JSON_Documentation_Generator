@@ -53,9 +53,12 @@ public class App {
 	private static int width = 750, height = 350;
 	private static JFilePicker filePickerOpen;
 	private static JFilePicker filePickerSave;
-	public static JDialog dialog = new JDialog();
-	static HashMap<String, String> items = new HashMap<String, String>();
-
+	private static JDialog dialog = new JDialog();
+	private static HashMap<String, String> items = new HashMap<String, String>();
+	
+	public static SaveTypeBox saveTypeBox;
+	private static FormatDocument formatText;
+	
 	/**
 	 * Main method, entry point of application.
 	 * 
@@ -116,6 +119,8 @@ public class App {
 		JCheckBox includeExamples = new JCheckBox("Include examples", false);
 		JButton generateButton = new JButton("Generate");
 		JButton cancelButton = new JButton("Cancel");
+		
+
 
 		// Adding panel to the frame
 		panel.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
@@ -126,15 +131,14 @@ public class App {
 
 		filePickerOpen = new JFilePicker("Json Schema Path:", "Browse...");
 		filePickerOpen.setMode(JFilePicker.MODE_OPEN);
-		filePickerOpen.addFileTypeFilter(".txt", "JSON Files");
+		filePickerOpen.addFileTypeFilter(".json", "JSON Files");
 
 		// Creating second instance of filePicker, set to save mode with filter on JSON
 		// files
 
-		SaveTypeBox saveTypeBox = new SaveTypeBox("Output type");
+		saveTypeBox = new SaveTypeBox("Output type");
 		filePickerSave = new JFilePicker("Type Output Path:", "Browse...");
 		filePickerSave.setMode(JFilePicker.MODE_SAVE);
-		filePickerSave.addFileTypeFilter(".json", "JSON, Text & HTML Files");
 
 		// add the components to the frame
 
@@ -156,7 +160,7 @@ public class App {
 
 		constraints.gridy++;
 		panel.add(saveTypeBox, constraints);
-
+		
 		constraints.gridy++;
 		panel.add(filePickerSave, constraints);
 
@@ -191,53 +195,31 @@ public class App {
 
 				// verifies if file exists at selected path and if it is a json file
 				if (fileOpen.exists() && fileOpen.getPath().contains(".json")) {
+					
+					String choosedFormat = saveTypeBox.getSelectedFormat();
 
-					// info we want to search
-					String title = "title";
-					String description = "description";
-					String iteratedItem;
-					InputStream is;
-
-					try {
-						is = new FileInputStream(fileOpen);
-						JSONTokener tokener = new JSONTokener(is);
-						JSONObject object = new JSONObject(tokener);
-
-						// get JSON objects from which we want to get info
-						JSONObject properties = object.getJSONObject("properties");
-						JSONObject definitions = object.getJSONObject("definitions");
-
-						JSONObject content;
-
-						// Iterate through properties and select title and description(also puts info in
-						// a hash map)
-						Iterator<?> propertiesIterator = properties.keys();
-
-						while (propertiesIterator.hasNext()) {
-							iteratedItem = propertiesIterator.next().toString();
-							content = properties.getJSONObject(iteratedItem);
-
-							items.put(iteratedItem, content.getString(title) + " : " + content.getString(description));
-
-						}
-
-						// Iterate through definitions and select title and description(also puts info
-						// in a hash map)
-						Iterator<?> definitionIterator = definitions.keys();
-
-						while (definitionIterator.hasNext()) {
-							iteratedItem = definitionIterator.next().toString();
-							content = definitions.getJSONObject(iteratedItem);
-
-							items.put(iteratedItem, "title: " + content.getString(title) + ",\n " + " description: "
-									+ content.getString(description));
-
-						}
-
-					} catch (FileNotFoundException e1) {
-						e1.printStackTrace();
+					// Switch in dependence of selected format
+					
+					switch (choosedFormat) {
+					case ".txt":
+						formatText = new FormatAsText(choosedFormat);
+						items = formatText.getFileData(fileOpen);
+						formatText.createFile(fileSave);
+						return;
+					case ".json":
+						formatText = new FormatAsJSON(choosedFormat);
+						items = formatText.getFileData(fileOpen);
+						formatText.createFile(fileSave);
+						return;
+					case ".html":
+						formatText = new FormatAsHTML(choosedFormat);
+						items = formatText.getFileData(fileOpen);
+						formatText.createFile(fileSave);
+						return;
+					default :
+						return;
 					}
-
+					
 				} else {
 
 					showMessageDialog(null, "Invalid JSON Schema URL");
@@ -249,35 +231,8 @@ public class App {
 					switch (result) {
 					case JOptionPane.YES_OPTION:
 
-						// Deletes existing file, and creates a new one
-
-						fileSave.delete();
-						fileSave = new File(filePickerSave.getSelectedFilePath());
-						BufferedWriter bf = null;
-						try {
-
-							// create new BufferedWriter for the output file
-							bf = new BufferedWriter(new FileWriter(fileSave + ".txt"));
-
-							// iterate map entries
-							for (Map.Entry<String, String> entry : items.entrySet())
-								bf.write(entry.getKey() + " --> " + entry.getValue() + "\n");
-
-							// new line
-							bf.newLine();
-
-							bf.flush();
-
-						} catch (IOException e1) {
-							e1.printStackTrace();
-						} finally {
-
-							try {
-								// always close the writer
-								bf.close();
-							} catch (Exception e2) {
-							}
-						}
+						formatText.createFile(fileSave);
+						
 						return;
 					case JOptionPane.NO_OPTION:
 						return;
@@ -289,32 +244,30 @@ public class App {
 				} else {
 
 					// Creates file if there is no need to overwrite
-
-					BufferedWriter bf = null;
-					try {
-
-						// create new BufferedWriter for the output file
-						bf = new BufferedWriter(new FileWriter(fileSave + ".txt"));
-
-						// iterate map entries
-						for (Map.Entry<String, String> entry : items.entrySet())
-							bf.write(entry.getKey() + " --> " + entry.getValue() + "\n");
-
-						// new line
-						bf.newLine();
-
-						bf.flush();
-
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					} finally {
-
-						try {
-							// always close the writer
-							bf.close();
-						} catch (Exception e2) {
-						}
+					// Switch in dependence of selected format
+					String choosedFormat = saveTypeBox.getSelectedFormat();
+					
+					switch (choosedFormat) {
+					case ".txt":
+						formatText = new FormatAsText(choosedFormat);
+						items = formatText.getFileData(fileOpen);
+						formatText.createFile(fileSave);
+						return;
+					case ".json":
+						formatText = new FormatAsJSON(choosedFormat);
+						items = formatText.getFileData(fileOpen);
+						formatText.createFile(fileSave);
+						return;
+					case ".html":
+						formatText = new FormatAsHTML(choosedFormat);
+						items = formatText.getFileData(fileOpen);
+						formatText.createFile(fileSave);
+						return;
+					default :
+						return;
 					}
+					
+
 
 				}
 			}

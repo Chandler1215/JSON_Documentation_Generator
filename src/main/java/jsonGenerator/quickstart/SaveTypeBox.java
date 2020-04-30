@@ -4,48 +4,59 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-
 /**
-* <h1>JSaveTypeBox</h1>
-* Class which helps to have 2 objects as one, for better aligning in window
-* @author  Bozieac Artur
-* @version 1.0
-* @since   2020-04-23 
-*/
+ * <h1>JSaveTypeBox</h1> Class which helps to have 2 objects as one, for better
+ * aligning in window
+ * 
+ * @author Bozieac Artur
+ * @version 1.0
+ * @since 2020-04-23
+ */
 
 public class SaveTypeBox extends JPanel {
 
-	// Combobox choices
-	private String[] saveTypes = { ".txt", ".json", ".html" };
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	// Variables to store label and combobox
 	private JLabel saveTypeLabel;
-	private JComboBox saveTypeBox;
-	
+	private JComboBox<String> saveTypeBox;
+	private JButton setFormatButton;
+
 	/**
-	   * Constructor for box (label + combobox).
-	   * @param labelContent var used to set label content
-	   * 
-	   */
+	 * Constructor for box (label + combobox).
+	 * 
+	 * @param labelContent var used to set label content
+	 * 
+	 */
 
 	public SaveTypeBox(String labelContent) {
-		
+
 		// creates the GUI
 		// setting a FlowLayot to have Label and ComboBox close
 
 		setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
 		saveTypeLabel = new JLabel(labelContent);
-		saveTypeBox = new JComboBox(saveTypes);
-		
+
+		saveTypeBox = new JComboBox<String>();
+		saveTypeBox.addItem(".txt");
+		saveTypeBox.addItem(".json");
+		saveTypeBox.addItem(".html");
+
 		// TypeLabel style
 		saveTypeLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
-		
+
 		// ComboBox style
 		saveTypeBox.setOpaque(true);
 		saveTypeBox.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -55,6 +66,11 @@ public class SaveTypeBox extends JPanel {
 		// adding to layout
 		add(saveTypeLabel);
 		add(saveTypeBox);
+
+	}
+
+	public String getSelectedFormat() {
+		return (String) saveTypeBox.getSelectedItem();
 	}
 
 }
