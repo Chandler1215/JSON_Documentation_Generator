@@ -1,6 +1,6 @@
 package jsonGenerator.quickstart;
 
-public class FormatAsText extends FormatDocument{
+public class FormatAsText extends DocGenerator{
 
 	public FormatAsText(String extension) {
 		super(extension);

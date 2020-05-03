@@ -13,24 +13,27 @@ import java.util.Map;
 
 import org.json.JSONObject;
 import org.json.JSONTokener;
+
 /**
- * <h1>ForAsHTML</h1> DocGenerator child, overrides methods to format data in HTML Format
+ * <h1>DocGenerator</h1> Class which gets data from JSON Schema and writes it to a file
  * 
  * @author Bozieac Artur
  * @version 1.2
  * @since 2020-05-03
  */
-public class FormatAsHTML extends DocGenerator{
+public class DocGenerator {
+
+	protected HashMap<String, String> items = new HashMap<String, String>();
+	protected String extension;
 
 	/**
-	 * Constructor for FormatAsHTML
+	 * Constructor for DocGenerator
 	 * 
 	 * @param extension Represents selected or the only extension which can be
 	 *                  selected
 	 */
-	public FormatAsHTML(String extension) {
-		super(extension);
-		
+	public DocGenerator(String extension) {
+		this.extension = extension;
 	}
 	/**
 	 * Gets data from JSON Schema and saves it to a HashMap
@@ -61,7 +64,7 @@ public class FormatAsHTML extends DocGenerator{
 				iteratedItem = propertiesIterator.next().toString();
 				content = properties.getJSONObject(iteratedItem);
 
-				items.put(iteratedItem, " title: " + content.getString(title) + ",\n<br> " + " description: "
+				items.put(iteratedItem, " title: " + content.getString(title) + ",\n " + " description: "
 						+ content.getString(description));
 
 			}
@@ -74,7 +77,7 @@ public class FormatAsHTML extends DocGenerator{
 				iteratedItem = definitionIterator.next().toString();
 				content = definitions.getJSONObject(iteratedItem);
 
-				items.put(iteratedItem, " title: " + content.getString(title) + ",\n<br> " + " description: "
+				items.put(iteratedItem, " title: " + content.getString(title) + ",\n " + " description: "
 						+ content.getString(description));
 
 			}
@@ -85,6 +88,7 @@ public class FormatAsHTML extends DocGenerator{
 
 		return items;
 	}
+
 	/**
 	 * Creates file with selected extension, gets data from stored HashMap
 	 * 
@@ -106,22 +110,11 @@ public class FormatAsHTML extends DocGenerator{
 				bf = new BufferedWriter(new FileWriter(fileSave + this.extension));
 			}
 			// iterate map entries
-			
-			bf.write("<!DOCTYPE html>\r\n" + 
-					"<html lang=\"en\">\r\n" + 
-					"\r\n" + 
-					"<head>\r\n" + 
-					"<title>document.forms example</title>\r\n" + 
-					"</head>\r\n" + 
-					"\r\n" + 
-					"<body>");
 			for (Map.Entry<String, String> entry : items.entrySet())
-				bf.write("<h3>" + entry.getKey() + " : </h3> \n " + " <h4>" +entry.getValue() + "</h4>\n");
+				bf.write(entry.getKey() + " --> \n " + entry.getValue() + "\n");
 
 			// new line
 			bf.newLine();
-			bf.write("</body>\r\n" + 
-					"</html>");
 			bf.flush();
 
 		} catch (IOException e1) {
@@ -136,4 +129,21 @@ public class FormatAsHTML extends DocGenerator{
 		}
 	}
 
+	public HashMap<String, String> getItems() {
+		return items;
+	}
+
+	public void setItems(HashMap<String, String> items) {
+		this.items = items;
+	}
+
+	public String getExtension() {
+		return extension;
+	}
+
+	public void setExtension(String extension) {
+		this.extension = extension;
+	}
+	
+	
 }
