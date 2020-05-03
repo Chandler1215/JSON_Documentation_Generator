@@ -38,3 +38,14 @@ Example 5.
    
    Example 6.
 ![Screenshot](saveFormat1.png)
+
+# Step 4 : Refactored to MVC
+- Separated UI from App Logic
+- Added commons-io dependency
+- Overrided format method for HTML and JSON
+- JUnit test for Generator
+
+   Example 6.
+![Screenshot](htmlFormat.png)
+   Example 7.
+![Screenshot](jsonFormat.png)
