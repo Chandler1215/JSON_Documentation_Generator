@@ -1,0 +1,20 @@
+"Generated data": { 
+"nameType":{ 
+  "Title": "The 'name' property," 
+  "Description": "Specifies the family and given name for the person."
+"idType":{ 
+  "Title": "The 'id' property," 
+  "Description": "Specifies a required ID for this person. "
+"nameValueType":{ 
+  "Title": "The 'family' or 'given' property," 
+  "Description": "The first name or last name of the person."
+"personnel":{ 
+  "Title": "The 'personnel' property," 
+  "Description": "Defines the personnel as a collection of person entries."
+"linkType":{ 
+  "Title": "The 'link' property," 
+  "Description": "Specifies who is the manager and who are the subordinates for this person."
+"personType":{ 
+  "Title": "The 'person' property," 
+  "Description": "Specifies information about a person."
+}
