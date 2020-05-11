@@ -3,11 +3,11 @@
 # Step 1 : Created User Inteface
 
 Example 1.
-![Screenshot](DialogWindow.png)
+![Screenshot](images/DialogWindow.png)
 
 
 Example 2.
-![Screenshot](MainWindow.png)
+![Screenshot](images/MainWindow.png)
 
 # Step 2 : Created User Inteface
 - Replaced JFrame with JDialog
@@ -22,13 +22,13 @@ Example 2.
 Need to be implemented : - Auto-size for textfields.
 
 Example 3.
-![Screenshot](dialogOkURL.png)
+![Screenshot](images/dialogOkURL.png)
 
 Example 4.
-![Screenshot](overwriteDialog.png)
+![Screenshot](images/overwriteDialog.png)
 
 Example 5.
-![Screenshot](invalidURL.png)
+![Screenshot](images/invalidURL.png)
 
 # Step 3 : Read JSON Schema and Write data to a file
 - Used JSON-Java library to get data from JSON Schema
@@ -37,7 +37,7 @@ Example 5.
    - "Generate" button now creates a new file with formatted data, if file already exists, replaces it.
    
    Example 6.
-![Screenshot](saveFormat1.png)
+![Screenshot](images/saveFormat1.png)
 
 # Step 4 : Refactored to MVC
 - Separated UI from App Logic
@@ -46,6 +46,12 @@ Example 5.
 - JUnit test for Generator
 
    Example 6.
-![Screenshot](htmlFormat.png)
+![Screenshot](images/htmlFormat.png)
    Example 7.
-![Screenshot](jsonFormat.png)
+![Screenshot](images/jsonFormat.png)
+
+# Step 5 : Small fixes
+- Verification for a possible exception from JSON Object
+- Generator is reduced to only 1 file(DocGenerator)
+- View now extends a JDialog, and is totally separated by Controller
+- Refactored methods for parsing the file
